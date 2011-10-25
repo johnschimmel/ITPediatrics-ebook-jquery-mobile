@@ -1,0 +1,207 @@
+
+<!DOCTYPE html> 
+<html> 
+
+<head>
+	
+	<meta charset="utf-8">
+	
+	<!-- set width to pixel width of device's screen -->
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Mr. Mouthy goes to the Dentist</title> 
+
+    <!-- next 3 lines all you need to embed jquery mobile libraries and css -->
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.css" />
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.js"></script>
+	<!-- end jquery mobile include -->
+	
+	
+	<style>
+	html {
+		height: 100%;
+	}
+	body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+	}
+	.landscape, .landscape .ui-page, .portrait, .portrait .ui-page {
+		min-height: 100%;
+	}
+	
+
+	#page1 { background-image:url('images/waitingforthebus.PNG');}
+	#page2 { background-image:url('images/gettingonthebus.PNG');}	
+	#page3 { background-image:url('images/arrivingatthedentist.PNG');}
+	#page4 { background-image:url('images/meetingthedentist.PNG');}	
+	#page5 { background-image:url('images/cleaningteeth.PNG');}
+	#page6 { background-image:url('images/goodbye.PNG');}
+	#page7 { background-image:url('images/theend.PNG');}
+
+	</style>
+	
+	<script>
+	
+	var currentPageNum = 1;
+	var numPages = 7;
+	
+	
+	//swipe left event
+	jQuery( document ).bind( "swipeleft", function( event, data ){
+		
+		stopAudio();
+				
+		if (currentPageNum < numPages) {
+			currentPageNum++;
+			jQuery.mobile.changePage("#page"+currentPageNum);
+		}
+		
+	});
+
+	//swipe right event
+	jQuery( document ).bind( "swiperight", function( event, data ){
+		
+		stopAudio();
+		
+		if (currentPageNum> 1) {
+			currentPageNum--;
+			jQuery.mobile.changePage("#page"+currentPageNum,{reverse:true});
+		}
+
+	});
+	
+	jQuery(document).bind("pagechange",function(event,data){
+		console.log("page changed");
+		stopAudio();
+	});
+	
+	
+	jQuery(document).bind("tap", function(event, data){
+		
+		console.log(event.target.className);
+		
+		var current =  jQuery('.ui-page-active').attr('id');
+
+		if (current == "page1") {
+		
+			jQuery("audio#introAudio")[0].play();
+
+			
+		} else if (current == "page2"){
+		
+			jQuery("audio#wheelsOnTheBus")[0].play();
+		}
+		
+	});
+	
+	function stopAudio() {
+		
+		jQuery('audio').each(function(i,audioTag){
+			audioTag.pause();
+			audioTag.startTime = 0;
+			console.log("stopping audio #"+i);
+			
+		});
+	}
+
+	</script>
+	
+</head> 
+
+	
+<body> 
+
+<!-- Start of first page: #one -->
+<div data-role="page" class="page" id="page1">
+
+	<div data-role="content" id="waiting">	
+		
+		<p><a href="#page2" class="nextButton" data-role="button" data-inline="true">Next</a></p>
+		<audio src="audio/1.mp3" id="introAudio" preload="auto"></audio>
+	</div><!-- /content -->
+	
+</div><!-- /page one -->
+
+
+<!-- page 2 getting on the bus -->
+<div data-role="page" class="page" id="page2">
+
+	<div data-role="content" id="bus">	
+		<p><a href="#page1" class="backButton" data-direction="reverse" data-role="button" data-theme="b" data-inline="true">Go Back</a></p>			
+		<p><a href="#page3" class="nextButton" data-role="button" data-inline="true">Next</a></p>	
+		<audio src="audio/barney.mp3" id="wheelsOnTheBus" preload="auto"></audio>
+
+	</div><!-- /content -->
+	
+</div><!-- /page 2 -->
+
+
+<!-- page 3 arriving at dentist -->
+<div data-role="page" class="page" id="page3">
+
+	<div data-role="content" id="arriving">	
+			<p><a class="backButton" href="#page2" data-direction="reverse" data-role="button" data-theme="b" data-inline="true">Go back</a></p>	
+
+			<p><a class="nextButton" href="#page4" data-role="button" data-inline="true">Next</a></p>	
+
+	</div><!-- /content -->
+	
+</div><!-- /page 3 -->
+
+
+<!-- page 4 meeting the dentist -->
+<div data-role="page" class="page" id="page4">
+
+	<div data-role="content" id="meeting">	
+			<p><a class="backButton" href="#page3" data-direction="reverse" data-role="button" data-theme="b" data-inline="true">Go back</a></p>	
+
+			<p><a class="nextButton" href="#page5" data-role="button" data-inline="true">Next</a></p>	
+
+	
+	</div><!-- /content -->
+	
+</div><!-- /page 4 -->
+
+
+<!-- page 5 cleaing the teeth -->
+<div data-role="page" class="page" id="page5">
+
+	<div data-role="content" id="arriving">	
+			<p><a class="backButton" href="#page4" data-direction="reverse" data-role="button" data-theme="b" data-inline="true">Go back</a></p>	
+
+			<p><a class="nextButton" href="#page6" data-role="button" data-inline="true">Next</a></p>	
+
+	</div><!-- /content -->
+	
+</div><!-- /page 5 -->
+
+
+<!-- page 6 goodbye dentist -->
+<div data-role="page" class="page" id="page6">
+
+	<div data-role="content" id="goodbye">
+			<p><a class="backButton" href="#page5" data-direction="reverse" data-role="button" data-inline="true" data-theme="b">Go back</a></p>	
+
+			<p><a class="nextButton" href="#page7" data-role="button" data-inline="true">Next</a></p>	
+	
+	</div><!-- /content -->
+	
+</div><!-- /page 6 -->
+
+
+<!-- page 7 the end -->
+<div data-role="page" class="page" id="page7">
+
+	<div data-role="content" id="theend">
+
+			<p><a class="backButton" href="#page6" data-direction="reverse" data-role="button" data-theme="b" data-inline="true">Go back</a></p>	
+
+
+	</div><!-- /content -->
+	
+</div><!-- /page 7 -->
+
+
+</body>
+</html>
